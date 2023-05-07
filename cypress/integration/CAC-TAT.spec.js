@@ -113,10 +113,8 @@ describe("Central de Atendimento ao Cliente TAT", () => {
   it("marca ambos checkboxes, depois desmarca o último", () => {
     cy.get('input[type="checkbox"]')
       .should("have.length", 2)
-      .each(($checkbox) => {
-        cy.wrap($checkbox).check();
-        cy.wrap($checkbox).should("be.checked");
-      })
+      .check()
+      .each(($checkbox) => cy.wrap($checkbox).should("be.checked"))
       .last()
       .uncheck();
 
