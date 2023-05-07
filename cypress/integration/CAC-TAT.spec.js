@@ -1,12 +1,13 @@
 /// <reference types="Cypress" />
 
 const typePersonalData = () => {
-  cy.contains("Nome").siblings("input").type("Joao");
-  cy.contains("Sobrenome").siblings("input").type("de Deus");
-  cy.contains("E-mail").siblings("input").type("abc@mail.com.br");
-  cy.contains("Como podemos te ajudar?")
-    .siblings("textarea")
-    .type("Minha TV queimou. Me ajudem a resolver esse problema", { delay: 0 });
+  cy.get("#firstName").type("Joao");
+  cy.get("#lastName").type("de Deus");
+  cy.get("#email").type("abc@mail.com.br");
+  cy.get("#open-text-area").type(
+    "Minha TV queimou. Me ajudem a resolver esse problema",
+    { delay: 0 }
+  );
 };
 
 describe("Central de Atendimento ao Cliente TAT", () => {
@@ -25,16 +26,13 @@ describe("Central de Atendimento ao Cliente TAT", () => {
   });
 
   it("exibe mensagem de erro ao submeter o formulário com um email com formatação inválida", () => {
-    cy.contains("E-mail").siblings("input").type("asdf").click();
+    cy.get("#email-checkbox").type("asdf").click();
     cy.contains("Enviar").click();
     cy.contains("Valide os campos obrigatórios!").should("be.visible");
   });
 
   it("input de telefone fica vazio quando o valor digitado não é numérico", () => {
-    cy.contains("Telefone")
-      .siblings("input")
-      .type("Alou")
-      .should("have.value", "");
+    cy.get("#phone").type("Alou").should("have.value", "");
   });
 
   it("exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário", () => {
@@ -46,32 +44,21 @@ describe("Central de Atendimento ao Cliente TAT", () => {
   });
 
   it("preenche e limpa os campos nome, sobrenome, email e telefone", () => {
-    cy.contains("Nome")
-      .siblings("input")
-      .type("Joao")
-      .should("have.value", "Joao");
-    cy.contains("Sobrenome")
-      .siblings("input")
-      .type("de Deus")
-      .should("have.value", "de Deus");
-    cy.contains("E-mail")
-      .siblings("input")
+    cy.get("#firstName").type("Joao").should("have.value", "Joao");
+    cy.get("#lastName").type("de Deus").should("have.value", "de Deus");
+    cy.get("#email")
       .type("abc@mail.com.br")
       .should("have.value", "abc@mail.com.br");
-    cy.contains("Como podemos te ajudar?")
-      .siblings("textarea")
+    cy.get("#open-text-area")
       .type("Minha TV queimou", {
         delay: 0,
       })
       .should("have.value", "Minha TV queimou");
 
-    cy.contains("Nome").siblings("input").clear().should("have.value", "");
-    cy.contains("Sobrenome").siblings("input").clear().should("have.value", "");
-    cy.contains("E-mail").siblings("input").clear().should("have.value", "");
-    cy.contains("Como podemos te ajudar?")
-      .siblings("textarea")
-      .clear()
-      .should("have.value", "");
+    cy.get("#firstName").clear().should("have.value", "");
+    cy.get("#lastName").clear().should("have.value", "");
+    cy.get("#email").clear().should("have.value", "");
+    cy.get("#open-text-area").clear().should("have.value", "");
   });
 
   it("exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios", () => {
