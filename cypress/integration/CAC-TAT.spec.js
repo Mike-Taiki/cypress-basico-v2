@@ -39,9 +39,7 @@ describe("Central de Atendimento ao Cliente TAT", () => {
 
   it("exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário", () => {
     typePersonalData();
-    cy.contains("Qual seu meio de contato preferencial?")
-      .siblings('input[id="phone-checkbox"]')
-      .click();
+    cy.get("#phone-checkbox").check();
     cy.contains("Enviar").click();
 
     cy.contains("Valide os campos obrigatórios!").should("be.visible");
