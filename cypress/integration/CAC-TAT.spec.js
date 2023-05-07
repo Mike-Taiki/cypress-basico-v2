@@ -98,11 +98,15 @@ describe("Central de Atendimento ao Cliente TAT", () => {
   });
 
   it('marca o tipo de atendimento "Feedback', () => {
-    cy.get('[type="radio"]').check('feedback').should('be.checked', 'feedback')
+    cy.get('[type="radio"]').check("feedback").should("be.checked", "feedback");
   });
 
-  it('marca cada tipo de atendimento', () => {
-    cy.get('[type="radio"]').first().check().should('be.checked', 'ajuda')
-    cy.get('[type="radio"]').check('elogio').should('be.checked', 'elogio')
-  })
+  it("marca cada tipo de atendimento", () => {
+    cy.get('[type="radio"]')
+      .should("have.length", 3)
+      .each(($radio) => {
+        cy.wrap($radio).check();
+        cy.wrap($radio).should("be.checked");
+      });
+  });
 });
