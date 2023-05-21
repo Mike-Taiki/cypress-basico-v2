@@ -106,27 +106,37 @@ describe("Central de Atendimento ao Cliente TAT", () => {
     cy.get('input[type="checkbox"][value="phone"]').should("not.be.checked");
   });
 
-  it('seleciona um arquivo da pasta fixtures', () => {
-    cy.get('#file-upload')
-      .selectFile('cypress/fixtures/example.json')
-      .then(input => expect(input[0].files[0].name).to.equal('example.json'))
+  it("seleciona um arquivo da pasta fixtures", () => {
+    cy.get("#file-upload")
+      .selectFile("cypress/fixtures/example.json")
+      .then((input) => expect(input[0].files[0].name).to.equal("example.json"));
   });
 
-  it('seleciona um arquivo simulando um drag-and-drop', () => {
-    cy.get('#file-upload')
-      .selectFile('cypress/fixtures/example.json', { action: 'drag-drop' })
-      .then(input => expect(input[0].files[0].name).to.equal('example.json'))
-  })
-
-  it('seleciona um arquivo utilizando uma fixture para a qual foi dada um alias', () => {
-    cy.fixture('example.json').as('json');
-    
-    cy.get('#file-upload')
-      .selectFile('@json')
-      .then(input => expect(input[0].files[0].name).to.equal('example.json'))
+  it("seleciona um arquivo simulando um drag-and-drop", () => {
+    cy.get("#file-upload")
+      .selectFile("cypress/fixtures/example.json", { action: "drag-drop" })
+      .then((input) => expect(input[0].files[0].name).to.equal("example.json"));
   });
 
-  it.only('verifica que a política de privacidade abre em outra aba sem a necessidade de um clique', () => {
-    cy.get('a[href="privacy.html"]').should('have.attr', 'target', '_blank')
-  })
+  it("seleciona um arquivo utilizando uma fixture para a qual foi dada um alias", () => {
+    cy.fixture("example.json").as("json");
+
+    cy.get("#file-upload")
+      .selectFile("@json")
+      .then((input) => expect(input[0].files[0].name).to.equal("example.json"));
+  });
+
+  it("verifica que a política de privacidade abre em outra aba sem a necessidade de um clique", () => {
+    cy.get('a[href="privacy.html"]').should("have.attr", "target", "_blank");
+  });
+
+  it("acessa a página da política de privacidade removendo o target e então clicando no link", () => {
+    cy.get('a[href="privacy.html"]').invoke("removeAttr", "target").click();
+    cy.get("#title").contains("Política de privacidade");
+  });
+
+  it("testa a página da política de privacidade de forma independente", () => {
+    cy.visit("./src/privacy.html");
+    cy.get("#title").contains("Política de privacidade");
+  });
 });
