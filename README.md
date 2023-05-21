@@ -1,4 +1,4 @@
-# cy-data-test
+# cypress-basico-v2
 
 A course project based for end-to-end testing learning purposes.
 
