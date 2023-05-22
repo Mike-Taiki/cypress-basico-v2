@@ -20,15 +20,21 @@ describe("Central de Atendimento ao Cliente TAT", () => {
 
   it("preenche os campos obrigatórios e envia o formulário", () => {
     typePersonalData();
+    cy.clock();
     cy.contains("Enviar").click();
 
     cy.contains("Mensagem enviada com sucesso.").should("be.visible");
+    cy.tick(3000);
+    cy.get('.success').should('not.be.visible');
   });
 
   it("exibe mensagem de erro ao submeter o formulário com um email com formatação inválida", () => {
     cy.get("#email-checkbox").type("asdf").click();
+    cy.clock();
     cy.contains("Enviar").click();
     cy.contains("Valide os campos obrigatórios!").should("be.visible");
+    cy.tick(3000);
+    cy.get('.error').should('not.be.visible');
   });
 
   it("input de telefone fica vazio quando o valor digitado não é numérico", () => {
@@ -37,10 +43,13 @@ describe("Central de Atendimento ao Cliente TAT", () => {
 
   it("exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário", () => {
     typePersonalData();
+    cy.clock();
     cy.get("#phone-checkbox").check();
     cy.contains("Enviar").click();
 
     cy.contains("Valide os campos obrigatórios!").should("be.visible");
+    cy.tick(3000);
+    cy.get('.error').should('not.be.visible');
   });
 
   it("preenche e limpa os campos nome, sobrenome, email e telefone", () => {
@@ -62,8 +71,11 @@ describe("Central de Atendimento ao Cliente TAT", () => {
   });
 
   it("exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios", () => {
+    cy.clock();
     cy.contains("Enviar").click();
     cy.contains("Valide os campos obrigatórios!").should("be.visible");
+    cy.tick(3000);
+    cy.get('.error').should('not.be.visible');
   });
 
   it("envia o formuário com sucesso usando um comando customizado", () => {
