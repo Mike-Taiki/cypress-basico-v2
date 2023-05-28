@@ -181,4 +181,10 @@ describe("Central de Atendimento ao Cliente TAT", () => {
       }
     );
   });
+
+  it("encontra o gato nna página", () => {
+    cy.get("#cat").as("cat");
+
+    cy.get("@cat").should("not.be.visible").invoke("show").should("be.visible");
+  });
 });
